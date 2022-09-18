@@ -7,13 +7,16 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticleCategoryService } from './article-category.service';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
 import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('admin/article-category')
+@UseGuards(AuthGuard('jwt'))
 export class ArticleCategoryController {
   constructor(
     private readonly articleCategoryService: ArticleCategoryService,

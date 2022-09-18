@@ -1,12 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { AccountsService } from '../admin/accounts/accounts.service';
+import { AccountService } from '../admin/account/account.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly accountService: AccountsService,
+    private readonly accountService: AccountService,
     private readonly jwtService: JwtService,
   ) {}
 

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AccountsModule } from '../admin/accounts/accounts.module';
+import { AccountModule } from '../admin/account/account.module';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
@@ -10,7 +10,7 @@ import { jwtConstants } from './constants';
     JwtModule.register({
       secret: jwtConstants.secret,
     }),
-    AccountsModule,
+    AccountModule,
   ],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],

@@ -24,4 +24,3 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     throw new HttpException('登录失效，请重新登录', HttpStatus.FORBIDDEN);
   }
 }
-Footer;
