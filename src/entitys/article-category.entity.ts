@@ -1,12 +1,10 @@
 import { Column, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
 import { ArticleEntity } from './article.entity';
+import { BaseEntity } from './base.entity';
 
 @Entity('article_categories')
-export class ArticleCategoryEntity {
-  @PrimaryGeneratedColumn({ comment: 'ID' })
-  id: number;
-
+export class ArticleCategoryEntity extends BaseEntity {
   @Column({ comment: '名称' })
   name: string;
 

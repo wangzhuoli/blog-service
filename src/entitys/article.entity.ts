@@ -1,17 +1,9 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { ArticleCategoryEntity } from './article-category.entity';
+import { BaseEntity } from './base.entity';
 
 @Entity('articles')
-export class ArticleEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class ArticleEntity extends BaseEntity {
   @Column({ comment: '标题' })
   title: string;
 
