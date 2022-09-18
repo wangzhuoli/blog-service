@@ -12,15 +12,15 @@ import {
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleService } from './article.service';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Controller('admin/article')
 @UseGuards(AuthGuard('jwt'))
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get()
-  findAll(@Query() query: PaginationQueryDto) {
+  findAll(@Query() query: FindAllArticleDto) {
     return this.articleService.findAll(query);
   }
 

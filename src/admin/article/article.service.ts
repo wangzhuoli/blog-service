@@ -3,10 +3,10 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../../entitys/article.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { ArticleCategoryService } from '../article-category/article-category.service';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { pagination } from '../../utils/pagination';
+import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Injectable()
 export class ArticleService {
@@ -16,12 +16,25 @@ export class ArticleService {
     private readonly articleCategoryService: ArticleCategoryService,
   ) {}
 
-  findAll(query: PaginationQueryDto) {
-    return pagination({
+  async findAll(query: FindAllArticleDto) {
+    const { title = '' } = query;
+    const result = await pagination({
       repository: this.articleRepository,
       relations: ['categories'],
+      where: {
+        title: Like(`%${title}%`),
+      },
       ...query,
     });
+
+    result.data = result.data.map((i) => {
+      i.categories = i.categories.map((c) => {
+        const { sort, name, id } = c;
+        return { sort, name, id };
+      });
+      return i;
+    });
+    return result;
   }
 
   async findOne(id: number) {

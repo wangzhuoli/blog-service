@@ -12,8 +12,8 @@ import {
 import { ArticleCategoryService } from './article-category.service';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { FindAllArticleCategoryDto } from './dto/find-all-article-category.dto';
 
 @Controller('admin/article-category')
 @UseGuards(AuthGuard('jwt'))
@@ -23,7 +23,7 @@ export class ArticleCategoryController {
   ) {}
 
   @Get()
-  findAll(@Query() query: PaginationQueryDto) {
+  findAll(@Query() query: FindAllArticleCategoryDto) {
     return this.articleCategoryService.findAll(query);
   }
 

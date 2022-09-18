@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { ArticleCategoryEntity } from '../../entitys/article-category.entity';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
-import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 import { pagination } from '../../utils/pagination';
+import { FindAllArticleCategoryDto } from './dto/find-all-article-category.dto';
 
 @Injectable()
 export class ArticleCategoryService {
@@ -14,9 +14,11 @@ export class ArticleCategoryService {
     private readonly articleCategoryRepository: Repository<ArticleCategoryEntity>,
   ) {}
 
-  findAll(query: PaginationQueryDto) {
+  findAll(query: FindAllArticleCategoryDto) {
+    const { name = '' } = query;
     return pagination({
       repository: this.articleCategoryRepository,
+      where: { name: Like(`%${name}%`) },
       ...query,
     });
   }
