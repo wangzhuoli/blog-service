@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ArticleCategoryEntity } from './article-category.entity';
 
 @Entity('articles')
 export class ArticleEntity {
@@ -16,4 +23,12 @@ export class ArticleEntity {
 
   @Column({ comment: '缩略图' })
   thumbUrl: string;
+
+  @JoinTable()
+  @ManyToMany(
+    (type) => ArticleCategoryEntity,
+    (articleCategoryEntity) => articleCategoryEntity.articles,
+    { cascade: true },
+  )
+  categories: ArticleCategoryEntity[];
 }

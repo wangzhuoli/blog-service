@@ -12,4 +12,7 @@ export class CreateArticleDto {
 
   @IsString()
   thumbUrl: string;
+
+  @IsInt({ each: true })
+  readonly categories: number[];
 }
