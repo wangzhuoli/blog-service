@@ -12,6 +12,9 @@ async function bootstrap() {
       transform: true,
       // 传入非定义的字段时抛出错误
       forbidNonWhitelisted: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(3000);

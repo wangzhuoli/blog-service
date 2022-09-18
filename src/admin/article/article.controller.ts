@@ -6,17 +6,19 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleService } from './article.service';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 
 @Controller('admin/article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get()
-  findAll() {
-    return this.articleService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    return this.articleService.findAll(query);
   }
 
   @Get(':id')

@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../../entitys/article.entity';
 import { Repository } from 'typeorm';
 import { ArticleCategoryService } from '../article-category/article-category.service';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { pagination } from '../../utils/pagination';
 
 @Injectable()
 export class ArticleService {
@@ -14,9 +16,11 @@ export class ArticleService {
     private readonly articleCategoryService: ArticleCategoryService,
   ) {}
 
-  findAll() {
-    return this.articleRepository.find({
+  findAll(query: PaginationQueryDto) {
+    return pagination({
+      repository: this.articleRepository,
       relations: ['categories'],
+      ...query,
     });
   }
 

@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { ArticleCategoryEntity } from '../../entitys/article-category.entity';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { pagination } from '../../utils/pagination';
 
 @Injectable()
 export class ArticleCategoryService {
@@ -12,8 +14,11 @@ export class ArticleCategoryService {
     private readonly articleCategoryRepository: Repository<ArticleCategoryEntity>,
   ) {}
 
-  findAll() {
-    return this.articleCategoryRepository.find();
+  findAll(query: PaginationQueryDto) {
+    return pagination({
+      repository: this.articleCategoryRepository,
+      ...query,
+    });
   }
 
   async findOne(id: number) {

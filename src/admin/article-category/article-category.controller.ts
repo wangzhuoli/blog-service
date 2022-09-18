@@ -6,10 +6,12 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ArticleCategoryService } from './article-category.service';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
 
 @Controller('admin/article-category')
 export class ArticleCategoryController {
@@ -18,8 +20,8 @@ export class ArticleCategoryController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.articleCategoryService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    return this.articleCategoryService.findAll(query);
   }
 
   @Get(':id')
