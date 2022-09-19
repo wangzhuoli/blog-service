@@ -1,8 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
 import { ArticleCategoryEntity } from './article-category.entity';
 import { BaseEntity } from './base.entity';
 
 @Entity('article')
+@Index(['title'])
 export class ArticleEntity extends BaseEntity {
   @Column({ comment: '标题' })
   title: string;

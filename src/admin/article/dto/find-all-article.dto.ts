@@ -1,8 +1,13 @@
 import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
-import { IsString, ValidateIf } from 'class-validator';
+import { IsInt, IsPositive, IsString, IsOptional } from 'class-validator';
 
 export class FindAllArticleDto extends PaginationQueryDto {
-  @ValidateIf(({ title }) => title)
+  @IsOptional()
   @IsString()
   title: string;
+
+  @IsOptional()
+  @IsPositive()
+  @IsInt()
+  categoryId: number;
 }

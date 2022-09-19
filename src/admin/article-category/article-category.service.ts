@@ -4,7 +4,7 @@ import { Like, Repository } from 'typeorm';
 import { ArticleCategoryEntity } from '../../entitys/article-category.entity';
 import { CreateArticleCategoryDto } from './dto/create-article-category.dto';
 import { UpdateArticleCategoryDto } from './dto/update-article-category.dto';
-import { pagination } from '../../utils/pagination';
+import { pagination, getDefaultPagination } from '../../utils/pagination';
 import { FindAllArticleCategoryDto } from './dto/find-all-article-category.dto';
 
 @Injectable()
@@ -14,17 +14,19 @@ export class ArticleCategoryService {
     private readonly articleCategoryRepository: Repository<ArticleCategoryEntity>,
   ) {}
 
-  findAll(query: FindAllArticleCategoryDto) {
+  async findAll(query: FindAllArticleCategoryDto) {
     const { name = '' } = query;
-    return pagination({
-      repository: this.articleCategoryRepository,
+    const { take, skip } = getDefaultPagination(query);
+    const [list, count] = await this.articleCategoryRepository.findAndCount({
       where: { name: Like(`%${name}%`) },
       order: {
         sort: 'DESC',
         createAt: 'DESC',
       },
-      ...query,
+      take,
+      skip,
     });
+    return pagination({ take, skip, count, list });
   }
 
   async findOne(id: number) {

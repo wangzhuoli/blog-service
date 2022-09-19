@@ -3,9 +3,9 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ArticleEntity } from '../../entitys/article.entity';
-import { Like, Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { ArticleCategoryService } from '../article-category/article-category.service';
-import { pagination } from '../../utils/pagination';
+import { pagination, getDefaultPagination } from '../../utils/pagination';
 import { FindAllArticleDto } from './dto/find-all-article.dto';
 
 @Injectable()
@@ -17,28 +17,35 @@ export class ArticleService {
   ) {}
 
   async findAll(query: FindAllArticleDto) {
-    const { title = '' } = query;
-    const result = await pagination({
-      repository: this.articleRepository,
-      relations: ['category'],
-      where: {
-        title: Like(`%${title}%`),
-      },
-      order: {
-        sort: 'DESC',
-        createAt: 'DESC',
-      },
-      ...query,
-    });
+    const { take, skip } = getDefaultPagination(query);
+    const { categoryId, title = '' } = query;
+    const [list, count] = await this.articleRepository
+      .createQueryBuilder('article')
+      .leftJoinAndSelect('article.category', 'category')
+      .where(
+        new Brackets((qb) => {
+          if (categoryId) {
+            qb.where('category.id = :categoryId', { categoryId });
+          }
+        }),
+      )
+      .andWhere(`article.title LIKE :title`, { title: `%${title}%` })
+      .take(take)
+      .skip(skip)
+      .select([
+        'article.id',
+        'article.title',
+        'article.createAt',
+        'article.updateAt',
+        'article.thumbUrl',
+        'article.sort',
+        'category.id',
+        'category.sort',
+        'category.name',
+      ])
+      .getManyAndCount();
 
-    result.data = result.data.map((i) => {
-      i.category = i.category.map((c) => {
-        const { sort, name, id } = c;
-        return { sort, name, id };
-      });
-      return i;
-    });
-    return result;
+    return pagination({ take, skip, count, list });
   }
 
   async findOne(id: number) {

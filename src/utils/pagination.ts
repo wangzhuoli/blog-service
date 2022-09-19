@@ -1,41 +1,34 @@
-import { Repository } from 'typeorm';
-import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
+/**
+ * 默认分页参数
+ * **/
+export interface PaginationDefault {
+  page?: number;
+  size?: number;
+}
+
+export const getDefaultPagination = (params: PaginationDefault) => {
+  const { page = 1, size = 10 } = params;
+  return { skip: (page - 1) * size, take: size };
+};
+
+export interface PaginationParams {
+  take: number;
+  skip: number;
+  count: number;
+  list: any[];
+}
 
 /**
  * 分页处理
  * **/
-export interface PaginationParams {
-  repository: Repository<any>;
-  page?: number | string;
-  size?: number | string;
-  [property: number | string]: any;
-}
 
-export const pagination = async (
-  params: PaginationParams & FindOneOptions<any>,
-) => {
-  // eslint-disable-next-line prefer-const
-  let { page = 1, size = 10, repository, ...rest } = params;
-
-  if (typeof page === 'string') {
-    page = parseInt(page);
-  }
-
-  if (typeof size === 'string') {
-    size = parseInt(size);
-  }
-
-  const [list, count] = await repository.findAndCount({
-    take: size,
-    skip: (page - 1) * size,
-    ...rest,
-  });
-
+export const pagination = (params: PaginationParams) => {
+  const { take, skip, count, list } = params;
   return {
-    data: list,
-    count: count,
-    currentPage: page,
-    pageSize: size,
-    totalPage: Math.ceil(count / size) || 1,
+    list,
+    count,
+    currentPage: skip + 1,
+    pageSize: take,
+    totalPage: Math.ceil(count / take) || 1,
   };
 };
