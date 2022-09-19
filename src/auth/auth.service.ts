@@ -1,7 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { AccountService } from '../admin/account/account.service';
 import { JwtService } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -31,7 +30,7 @@ export class AuthService {
     const account = await this.validateAccount(name, password);
     if (account) {
       const token = this.jwtService.sign(account, {
-        secret: jwtConstants.secret,
+        secret: process.env.JWT_SECRET,
       });
       return token;
     }
@@ -42,7 +41,7 @@ export class AuthService {
   async verifyToken(token: string) {
     token = token.replace('Bearer ', '');
     return this.jwtService.verify(token, {
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
     });
   }
 }

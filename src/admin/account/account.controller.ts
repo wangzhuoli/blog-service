@@ -10,7 +10,6 @@ import {
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import { jwtConstants } from '../../auth/constants';
 import { AccountLoginDto } from './dto/account-login.dto';
 
 @Controller('admin/account')
@@ -32,7 +31,7 @@ export class AccountController {
     const token = await this.authService.signToken(body);
     return {
       token: token,
-      expires: jwtConstants.expiresIn,
+      expires: parseInt(process.env.JWT_EXPIRES_IN),
     };
   }
 }
