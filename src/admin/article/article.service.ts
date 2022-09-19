@@ -20,15 +20,19 @@ export class ArticleService {
     const { title = '' } = query;
     const result = await pagination({
       repository: this.articleRepository,
-      relations: ['categories'],
+      relations: ['category'],
       where: {
         title: Like(`%${title}%`),
+      },
+      order: {
+        sort: 'DESC',
+        createAt: 'DESC',
       },
       ...query,
     });
 
     result.data = result.data.map((i) => {
-      i.categories = i.categories.map((c) => {
+      i.category = i.category.map((c) => {
         const { sort, name, id } = c;
         return { sort, name, id };
       });
@@ -39,7 +43,7 @@ export class ArticleService {
 
   async findOne(id: number) {
     const article = await this.articleRepository.findOne({
-      relations: ['categories'],
+      relations: ['category'],
       where: {
         id,
       },
@@ -51,30 +55,30 @@ export class ArticleService {
   }
 
   async create(createArticleDto: CreateArticleDto) {
-    const categories = await Promise.all(
-      createArticleDto.categories.map((id) =>
+    const category = await Promise.all(
+      createArticleDto.category.map((id) =>
         this.preloadArticleCategoryById(id),
       ),
     );
     const article = this.articleRepository.create({
       ...createArticleDto,
-      categories,
+      category,
     });
     return this.articleRepository.save(article);
   }
 
   async update(id: number, updateArticleDto: UpdateArticleDto) {
-    const categories =
-      updateArticleDto.categories &&
+    const category =
+      updateArticleDto.category &&
       (await Promise.all(
-        updateArticleDto.categories.map((id) =>
+        updateArticleDto.category.map((id) =>
           this.preloadArticleCategoryById(id),
         ),
       ));
     const article = await this.articleRepository.preload({
       id,
       ...updateArticleDto,
-      categories,
+      category,
     });
     if (!article) {
       throw new NotFoundException(`文章id=${id}不存在`);

@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm';
+import { FindOneOptions } from 'typeorm/find-options/FindOneOptions';
 
 /**
  * 分页处理
@@ -10,7 +11,9 @@ export interface PaginationParams {
   [property: number | string]: any;
 }
 
-export const pagination = async (params: PaginationParams) => {
+export const pagination = async (
+  params: PaginationParams & FindOneOptions<any>,
+) => {
   // eslint-disable-next-line prefer-const
   let { page = 1, size = 10, repository, ...rest } = params;
 

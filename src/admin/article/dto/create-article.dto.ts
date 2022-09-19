@@ -14,5 +14,5 @@ export class CreateArticleDto {
   thumbUrl: string;
 
   @IsInt({ each: true })
-  readonly categories: number[];
+  readonly category: number[];
 }

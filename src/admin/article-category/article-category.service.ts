@@ -19,6 +19,10 @@ export class ArticleCategoryService {
     return pagination({
       repository: this.articleCategoryRepository,
       where: { name: Like(`%${name}%`) },
+      order: {
+        sort: 'DESC',
+        createAt: 'DESC',
+      },
       ...query,
     });
   }

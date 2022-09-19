@@ -1,9 +1,9 @@
-import { Column, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, ManyToMany } from 'typeorm';
 import { Entity } from 'typeorm';
 import { ArticleEntity } from './article.entity';
 import { BaseEntity } from './base.entity';
 
-@Entity('article_categories')
+@Entity('article_category')
 export class ArticleCategoryEntity extends BaseEntity {
   @Column({ comment: '名称' })
   name: string;
@@ -13,7 +13,7 @@ export class ArticleCategoryEntity extends BaseEntity {
 
   @ManyToMany(
     (type) => ArticleEntity,
-    (articleEntity) => articleEntity.categories,
+    (articleEntity) => articleEntity.category,
   )
-  articles: ArticleEntity[];
+  article: ArticleEntity[];
 }

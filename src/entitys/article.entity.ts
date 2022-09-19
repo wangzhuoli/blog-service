@@ -2,7 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 import { ArticleCategoryEntity } from './article-category.entity';
 import { BaseEntity } from './base.entity';
 
-@Entity('articles')
+@Entity('article')
 export class ArticleEntity extends BaseEntity {
   @Column({ comment: '标题' })
   title: string;
@@ -19,8 +19,8 @@ export class ArticleEntity extends BaseEntity {
   @JoinTable()
   @ManyToMany(
     (type) => ArticleCategoryEntity,
-    (articleCategoryEntity) => articleCategoryEntity.articles,
+    (articleCategoryEntity) => articleCategoryEntity.article,
     { cascade: true },
   )
-  categories: ArticleCategoryEntity[];
+  category: ArticleCategoryEntity[];
 }
