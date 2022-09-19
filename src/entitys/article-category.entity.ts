@@ -1,7 +1,7 @@
 import { Column, Index, ManyToMany } from 'typeorm';
 import { Entity } from 'typeorm';
 import { ArticleEntity } from './article.entity';
-import { BaseEntity } from './base.entity';
+import { BaseEntity } from '../common/entitys/base.entity';
 
 @Entity('article_category')
 @Index(['name'])

@@ -1,6 +1,6 @@
 import { Column, Entity, Index, JoinTable, ManyToMany } from 'typeorm';
 import { ArticleCategoryEntity } from './article-category.entity';
-import { BaseEntity } from './base.entity';
+import { BaseEntity } from '../common/entitys/base.entity';
 
 @Entity('article')
 @Index(['title'])

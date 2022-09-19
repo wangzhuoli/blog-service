@@ -12,6 +12,7 @@ export class BaseEntity {
 
   @CreateDateColumn({
     comment: '创建时间',
+    type: 'timestamp',
   })
   createAt: Date;
 
