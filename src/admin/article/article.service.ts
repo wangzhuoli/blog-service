@@ -43,6 +43,8 @@ export class ArticleService {
         'category.sort',
         'category.name',
       ])
+      .orderBy('article.sort', 'DESC')
+      .addOrderBy('article.createAt', 'DESC')
       .getManyAndCount();
 
     return pagination({ take, skip, count, list });
