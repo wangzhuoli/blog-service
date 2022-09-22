@@ -26,7 +26,7 @@ export class ArticleCategoryService {
       take,
       skip,
     });
-    return pagination({ take, skip, count, list });
+    return pagination({ take, skip, total: count, list });
   }
 
   async findOne(id: number) {

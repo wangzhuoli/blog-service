@@ -16,8 +16,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let errorMessage = exception.message;
     const exceptionResponse = exception.getResponse() as any;
 
-    console.log(exceptionResponse);
-
     if (exceptionResponse?.message) {
       if (Array.isArray(exceptionResponse.message)) {
         // 存在ValidationPipe校验的错误，捕获第一个错误信息返回
@@ -28,8 +26,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         errorMessage = exceptionResponse.message;
       }
     }
-
-    console.log(exception.getResponse());
 
     const status =
       exception instanceof HttpException

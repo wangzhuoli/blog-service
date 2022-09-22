@@ -47,7 +47,7 @@ export class ArticleService {
       .addOrderBy('article.createAt', 'DESC')
       .getManyAndCount();
 
-    return pagination({ take, skip, count, list });
+    return pagination({ take, skip, total: count, list });
   }
 
   async findOne(id: number) {

@@ -22,7 +22,7 @@ export class TransformInterceptor<T>
         return {
           success: true,
           errorCode: 0,
-          errorMessage: '',
+          errorMessage: '请求成功',
           data,
         };
       }),

@@ -3,9 +3,9 @@ import { IsOptional, IsPositive } from 'class-validator';
 export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
-  size: number;
+  pageSize: number;
 
   @IsOptional()
   @IsPositive()
-  page: number;
+  current: number;
 }

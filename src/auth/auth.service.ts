@@ -17,10 +17,10 @@ export class AuthService {
       return result;
     }
     if (!account) {
-      throw new HttpException('账号不存在', HttpStatus.FORBIDDEN);
+      throw new HttpException('账号不存在', HttpStatus.NOT_FOUND);
     }
     if (account.password !== pass) {
-      throw new HttpException('账号或密码错误', HttpStatus.FORBIDDEN);
+      throw new HttpException('账号或密码错误', HttpStatus.NOT_FOUND);
     }
   }
 

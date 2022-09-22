@@ -2,19 +2,19 @@
  * 默认分页参数
  * **/
 export interface PaginationDefault {
-  page?: number;
-  size?: number;
+  current?: number;
+  pageSize?: number;
 }
 
 export const getDefaultPagination = (params: PaginationDefault) => {
-  const { page = 1, size = 10 } = params;
-  return { skip: (page - 1) * size, take: size };
+  const { current = 1, pageSize = 10 } = params;
+  return { skip: (current - 1) * pageSize, take: pageSize };
 };
 
 export interface PaginationParams {
   take: number;
   skip: number;
-  count: number;
+  total: number;
   list: any[];
 }
 
@@ -23,12 +23,12 @@ export interface PaginationParams {
  * **/
 
 export const pagination = (params: PaginationParams) => {
-  const { take, skip, count, list } = params;
+  const { take, skip, total, list } = params;
   return {
     list,
-    count,
-    currentPage: skip + 1,
+    total,
+    currentPage: skip / take + 1,
     pageSize: take,
-    totalPage: Math.ceil(count / take) || 1,
+    totalPage: Math.ceil(total / take) || 1,
   };
 };
