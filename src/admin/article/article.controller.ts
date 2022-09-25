@@ -20,8 +20,8 @@ import { FindAllArticleDto } from './dto/find-all-article.dto';
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get()
-  findAll(@Query() query: FindAllArticleDto) {
-    return this.articleService.findAll(query);
+  find(@Query() query: FindAllArticleDto) {
+    return this.articleService.find(query);
   }
 
   @Get(':id')

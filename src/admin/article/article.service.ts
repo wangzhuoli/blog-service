@@ -16,7 +16,7 @@ export class ArticleService {
     private readonly articleCategoryService: ArticleCategoryService,
   ) {}
 
-  async findAll(query: FindAllArticleDto) {
+  async find(query: FindAllArticleDto) {
     const { take, skip } = getDefaultPagination(query);
     const { categoryId, title = '' } = query;
     const [list, count] = await this.articleRepository

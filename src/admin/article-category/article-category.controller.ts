@@ -23,8 +23,13 @@ export class ArticleCategoryController {
   ) {}
 
   @Get()
-  findAll(@Query() query: FindAllArticleCategoryDto) {
-    return this.articleCategoryService.findAll(query);
+  find(@Query() query: FindAllArticleCategoryDto) {
+    return this.articleCategoryService.find(query);
+  }
+
+  @Get('all')
+  findAll() {
+    return this.articleCategoryService.findAll();
   }
 
   @Get(':id')

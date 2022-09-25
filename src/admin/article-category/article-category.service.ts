@@ -14,7 +14,7 @@ export class ArticleCategoryService {
     private readonly articleCategoryRepository: Repository<ArticleCategoryEntity>,
   ) {}
 
-  async findAll(query: FindAllArticleCategoryDto) {
+  async find(query: FindAllArticleCategoryDto) {
     const { name = '' } = query;
     const { take, skip } = getDefaultPagination(query);
     const [list, count] = await this.articleCategoryRepository.findAndCount({
@@ -27,6 +27,15 @@ export class ArticleCategoryService {
       skip,
     });
     return pagination({ take, skip, total: count, list });
+  }
+
+  findAll() {
+    return this.articleCategoryRepository.find({
+      order: {
+        sort: 'DESC',
+        createAt: 'DESC',
+      },
+    });
   }
 
   async findOne(id: number) {
