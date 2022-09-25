@@ -5,33 +5,51 @@ import {
   Post,
   UseGuards,
   Headers,
-  HttpCode,
+  Put,
 } from '@nestjs/common';
 
 import { AuthService } from '../../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AccountLoginDto } from './dto/account-login.dto';
+import { UpdateAccountDto } from './dto/update-account.dto';
+import { AccountService } from './account.service';
 
 @Controller('admin/account')
 export class AccountController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly accountService: AccountService,
+  ) {}
 
   // 获取账号信息
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
-  getProfile(@Headers() headers) {
+  async getProfile(@Headers() headers) {
     const { authorization } = headers;
-    return this.authService.verifyToken(authorization);
+    const result = await this.authService.verifyToken(authorization);
+    const account = await this.accountService.findOneById(result.id);
+    return {
+      avatar: account.avatar,
+      id: account.id,
+      name: account.name,
+    };
   }
 
   // 登录
   @Post('login')
-  @HttpCode(200)
-  async login(@Body() body: AccountLoginDto) {
-    const token = await this.authService.signToken(body);
+  async login(@Body() accountLoginDto: AccountLoginDto) {
+    const token = await this.authService.signToken(accountLoginDto);
     return {
       token: token,
       expires: parseInt(process.env.JWT_EXPIRES_IN),
     };
+  }
+
+  // 登录
+  @Put('update')
+  async update(@Headers() headers, @Body() updateAccountDto: UpdateAccountDto) {
+    const { authorization } = headers;
+    const result = await this.authService.verifyToken(authorization);
+    return this.accountService.update(result.id, updateAccountDto);
   }
 }
