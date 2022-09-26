@@ -5,12 +5,10 @@ import { STS } from 'ali-oss';
 export class OssService {
   async signature() {
     const sts = new STS({
-      accessKeyId: 'LTAI5t9mrfqBnUgQsCd6ZHuT',
-      accessKeySecret: 'FrEKDG4Nc1ayX72ANBjfd40cJDN49Y',
+      accessKeyId: process.env.OSS_ACCESS_KEY_ID,
+      accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
     });
-    const { credentials } = await sts.assumeRole(
-      'acs:ram::1526380699587250:role/admin',
-    );
+    const { credentials } = await sts.assumeRole(process.env.OSS_ARM);
     return { ...credentials };
   }
 }

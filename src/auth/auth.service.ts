@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { AccountService } from '../admin/account/account.service';
 import { JwtService } from '@nestjs/jwt';
+import { md5 } from 'md5js';
 
 @Injectable()
 export class AuthService {
@@ -12,14 +13,18 @@ export class AuthService {
   // 账号验证
   async validateAccount(name: string, pass: string): Promise<any> {
     const account = await this.accountService.findOne(name);
-    if (account && account.password === pass) {
+
+    if (account && account.password === md5(pass, 32)) {
       const { password, ...result } = account;
+
       return result;
     }
+
     if (!account) {
       throw new HttpException('账号不存在', HttpStatus.NOT_FOUND);
     }
-    if (account.password !== pass) {
+
+    if (account.password !== md5(pass, 32)) {
       throw new HttpException('账号或密码错误', HttpStatus.NOT_FOUND);
     }
   }
