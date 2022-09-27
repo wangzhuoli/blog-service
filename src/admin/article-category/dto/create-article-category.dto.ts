@@ -4,6 +4,9 @@ export class CreateArticleCategoryDto {
   @IsString()
   name: string;
 
+  @IsString()
+  path: string;
+
   @IsInt()
   sort: number;
 }
