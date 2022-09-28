@@ -8,7 +8,7 @@ export class ArticleEntity extends BaseEntity {
   @Column({ comment: '标题' })
   title: string;
 
-  @Column({ comment: '内容' })
+  @Column({ comment: '内容', type: 'text' })
   content: string;
 
   @Column({ comment: '排序' })
@@ -17,7 +17,7 @@ export class ArticleEntity extends BaseEntity {
   @Column({ comment: '缩略图' })
   thumbUrl: string;
 
-  @Column({ comment: '简介' })
+  @Column({ comment: '简介', type: 'text' })
   intro: string;
 
   @JoinTable()
