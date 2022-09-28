@@ -17,6 +17,9 @@ export class ArticleEntity extends BaseEntity {
   @Column({ comment: '缩略图' })
   thumbUrl: string;
 
+  @Column({ comment: '简介' })
+  intro: string;
+
   @JoinTable()
   @ManyToMany(
     (type) => ArticleCategoryEntity,

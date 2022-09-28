@@ -35,6 +35,7 @@ export class ArticleService {
       .select([
         'article.id',
         'article.title',
+        'article.intro',
         'article.createAt',
         'article.updateAt',
         'article.thumbUrl',
