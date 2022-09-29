@@ -14,7 +14,7 @@ export class ArticleCategoryService {
     private readonly articleCategoryRepository: Repository<ArticleCategoryEntity>,
   ) {}
 
-  async find(query: FindAllArticleCategoryDto) {
+  async find(query?: FindAllArticleCategoryDto) {
     const { name = '' } = query;
     const { take, skip } = getDefaultPagination(query);
     const [list, count] = await this.articleCategoryRepository.findAndCount({
