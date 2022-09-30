@@ -12,9 +12,6 @@ export class ArticleCategoryEntity extends BaseEntity {
   @Column({ comment: '排序' })
   sort: number;
 
-  @Column({ comment: '路径' })
-  path: string;
-
   @ManyToMany(
     (type) => ArticleEntity,
     (articleEntity) => articleEntity.category,
